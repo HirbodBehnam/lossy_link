@@ -1,5 +1,5 @@
 [package]
-name = "unreliable_link"
+name = "lossy_link"
 version = "0.1.0"
 edition = "2021"
 

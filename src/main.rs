@@ -34,9 +34,9 @@ fn main() {
                 .send_to(&buffer[..n], sender) // which must be send back to client
                 .expect("Cannot echo back data to client");
         } else { // or is coming from a client
-            sender = src;
+            sender = src; // set the current client
             socket
-                .send_to(&buffer[..n], arguments.forward_address)
+                .send_to(&buffer[..n], arguments.forward_address) // and send it to forwarded server
                 .expect("Cannot send data to forward server");
         }
     }
