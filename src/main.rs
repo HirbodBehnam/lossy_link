@@ -46,11 +46,6 @@ fn main() {
         // Log this packet
         packet_number += 1;
         debug!("Got packet {} from {} with size {}", packet_number, src, n);
-        // Maybe drop this packet?
-        if biased_bool(arguments.loss_rate) {
-            warn!("Dropping packet {}", packet_number);
-            continue;
-        }
         // Two possibilities...
         if src == arguments.forward_address {
             // either this packet is coming from server...
@@ -62,6 +57,11 @@ fn main() {
             // or is coming from a client
             sender = src; // set the current client so packets coming back from server get forwarded to client
             info!("Client is now {}", sender);
+			// Maybe drop this packet?
+            if biased_bool(arguments.loss_rate) {
+                warn!("Dropping packet {}", packet_number);
+                continue;
+            }
             // Send to channel
             client_server_tx
                 .send((buffer[..n].to_owned(), packet_number))
